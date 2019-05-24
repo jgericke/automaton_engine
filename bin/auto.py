@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Automaton launcher"""
+"""auto.py"""
 # Author(s): Julian Gericke
 # (c) LSD
 # julian@lsd.co.za
@@ -11,6 +11,8 @@ import logging
 import asyncio
 import biome
 import os
+
+
 from automaton import Automaton
 
 
@@ -72,7 +74,7 @@ if __name__ == "__main__":
         automaton_t = [
             (Automaton.Poller(automaton)) for index, automaton in enumerate(automatons)
         ]
-        """ Main loop
+        """ Start event loop
         """
         loop.run_until_complete(asyncio.gather(*automaton_t))
         loop.close()
@@ -81,6 +83,6 @@ if __name__ == "__main__":
             sys.exit(0)
         except SystemExit:
             os._exit(0)
-    except Exception as ex:
-        logging.error(ex)
+    except Exception as e:
+        logging.error(e)
         raise

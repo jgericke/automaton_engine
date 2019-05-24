@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Automaton actions: ansible awx."""
+"""Automaton actions: AWX."""
 # Author(s): Julian Gericke
 # (c) LSD
 # julian@lsd.co.za

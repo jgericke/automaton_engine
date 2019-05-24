@@ -13,6 +13,7 @@ dist
 *.egg-info
 .tests
 automaton.sublime-*
+bin/launch
 launch
 launch-orders
 launch-security
