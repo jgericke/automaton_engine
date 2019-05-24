@@ -1,4 +1,6 @@
-[![Codeship Status for jgericke/automaton](https://app.codeship.com/projects/d8f9a710-6020-0137-cdfe-427ad6051c19/status?branch=master)](https://app.codeship.com/projects/343973)
+[![Codeship Status for jgericke/automaton](https://app.codeship.com/projects/d8f9a710-6020-0137-cdfe-427ad6051c19/status?branch=master)](https://app.codeship.com/projects/343973) 
+
+[![Docs](https://readthedocs.com/projects/lsd-automaton/badge/?version=latest)
 
 # Automaton
 __Simple, Event-driven Automation in Python__
