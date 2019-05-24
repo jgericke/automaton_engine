@@ -1,6 +1,6 @@
 [![Codeship Status for jgericke/automaton](https://app.codeship.com/projects/d8f9a710-6020-0137-cdfe-427ad6051c19/status?branch=master)](https://app.codeship.com/projects/343973) 
 
-[![Docs](https://readthedocs.com/projects/lsd-automaton/badge/?version=latest)]
+[Docs](https://readthedocs.com/projects/lsd-automaton/badge/?version=latest)
 
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT) 
 [![Code style](https://img.shields.io/badge/code%20style-black-000000.svg)
