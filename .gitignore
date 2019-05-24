@@ -1,7 +1,7 @@
 __pycache__/
 tests/__pycache__
 automaton/__pycache__
-automaton/actions/__pycache__
+automaton/actions/__pycache__ 
 .cache
 .DS_Store
 launch.sh
