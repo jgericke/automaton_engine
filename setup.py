@@ -12,7 +12,7 @@ setup(
     scripts=["bin/auto.py"],
     install_requires=["asyncio>=3.4.3", "aiohttp>=3.5.4", "biome>=0.1.3"],
     setup_requires=["pytest-runner>=4.4"],
-    tests_require=["pytest>=4.4.2", "pytest-asyncio>=0.10.0"],
+    tests_require=["pytest>=4.4.2", "pytest-asyncio>=0.10.0", "asynctest>=0.13.0"],
     extras_require={
         "dev": [
             "coverage>=4.5.3",
