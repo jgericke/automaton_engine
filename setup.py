@@ -8,6 +8,7 @@ setup(
     author="LSD Information Technology",
     author_email="julian@lsd.co.za",
     license="MIT",
+    entry_points={},
     scripts=["bin/auto.py"],
     install_requires=["asyncio>=3.4.3", "aiohttp>=3.5.4", "biome>=0.1.3"],
     setup_requires=["pytest-runner>=4.4"],

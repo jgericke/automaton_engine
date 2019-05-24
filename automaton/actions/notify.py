@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Automaton actions: notify."""
+"""Automaton actions: Notifications."""
 # Author(s): Julian Gericke
 # (c) LSD
 # julian@lsd.co.za
