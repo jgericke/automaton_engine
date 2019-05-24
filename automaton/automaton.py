@@ -20,7 +20,7 @@ from .actions import awx
 
 logger = logging.getLogger(__name__)
 
-"""Automaton actions which can be effected
+""" Automaton actions which can be effected
 - actions.notify : send webhook notification to RocketChat
 - actions.awx    : send api call to ansible awx
 """
