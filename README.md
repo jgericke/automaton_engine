@@ -2,7 +2,8 @@
 
 # Automaton
 __Simple, Event-driven Automation in Python__
-![automaton](docs/rsrc/automaton.png?raw=true "Automaton")
+
+![automaton](docs/rsrc/automaton.png "Automaton")
 
 
 Automaton makes use of Elasticsearch as a general data aggregation layer. You feed your Automaton(s) queries
