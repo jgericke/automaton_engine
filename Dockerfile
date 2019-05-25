@@ -4,8 +4,9 @@ LABEL application="automaton"
 LABEL version="1.0.0"
 WORKDIR /opt/automaton
 ADD actions /opt/automaton/actions
-ADD automaton /opt/automaton/automaton 
-COPY auto.py  __init__.py setup.py ./
+ADD automaton /opt/automaton/automaton
+ADD bin /opt/automaton/bin
+COPY setup.cfg setup.py LICENSE ./
 RUN set -x \
     && python setup.py build \
     && python setup.py install
@@ -14,4 +15,4 @@ RUN set -x \
     && chown -R 1001:0 /opt/automaton \
     && chmod -R ug+rwx /opt/automaton 
 USER 1001
-CMD python /opt/automaton/auto.py
+CMD python /opt/automaton/bin/auto.py
