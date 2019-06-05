@@ -1,6 +1,7 @@
 # Automaton Engine
 __Simple, Event-driven Automation in Python__
 
+
 Automaton Engine makes use of Elasticsearch as a general data aggregation layer. You feed your Automaton(s) queries
 via environment variables (formatted in JSON). Based on the query result, you can chain actions together which
 Automaton Engine will act on, passing query metadata off to action handlers and generally having a good time.
