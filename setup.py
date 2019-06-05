@@ -1,15 +1,31 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 setup(
-    name="automaton",
+    name="automaton_engine",
     version="1.0.0",
     python_requires="~=3.7",
-    description="Simple, Event-driven Automation in Python",
-    author="LSD Information Technology",
+    description="Simple, Event-driven Automation in Python using Elasticsearch data to inform automation decisions",
+    long_description=open("README.md").read(),
+    author="Julian Gericke, LSD Information Technology",
     author_email="julian@lsd.co.za",
+    url="https://lsd-automaton.readthedocs-hosted.com/en/latest/",
+    packages=find_packages(exclude=("tests", "tests.*")),
+    entry_points={
+        "console_scripts": ["automaton-engine = automaton_engine.runner:runner"]
+    },
     license="MIT",
-    entry_points={},
-    scripts=["bin/auto.py"],
+    classifiers=[
+        "Development Status :: 5 - Production/Stable",
+        "Environment :: Console",
+        "Environment :: MacOS X",
+        "Operating System :: MacOS :: MacOS X",
+        "Operating System :: POSIX :: Linux",
+        "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.7",
+        "Topic :: System :: Systems Administration",
+        "Topic :: System :: Monitoring",
+        "Topic :: System :: Logging",
+    ],
     install_requires=["asyncio>=3.4.3", "aiohttp>=3.5.4", "biome>=0.1.3"],
     setup_requires=["pytest-runner>=4.4"],
     tests_require=["pytest>=4.4.2", "pytest-asyncio>=0.10.0", "asynctest>=0.13.0"],
