@@ -8,7 +8,7 @@ setup(
     long_description=open("README.md").read(),
     author="Julian Gericke, LSD Information Technology",
     author_email="julian@lsd.co.za",
-    url="https://lsd-automaton.readthedocs-hosted.com/en/latest/",
+    url="https://github.com/jgericke/automaton_engine",
     packages=find_packages(exclude=("tests", "tests.*")),
     entry_points={
         "console_scripts": ["automaton-engine = automaton_engine.runner:runner"]
