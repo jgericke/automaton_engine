@@ -56,15 +56,14 @@ docs:
 servedocs:
 	mkdocs serve
 
-release: clean
-	dist
-	twine check dist/*
-	twine upload dist/*
-
 dist: clean
 	python setup.py sdist
 	python setup.py bdist_wheel
-	ls -l dist
+	ls -l dist	
+
+release: dist
+	twine check dist/*
+	twine upload dist/*
 
 install: clean
 	python setup.py install
