@@ -57,8 +57,9 @@ servedocs:
 	mkdocs serve
 
 release: clean
-	python setup.py sdist upload
-	python setup.py bdist_wheel upload
+	dist
+	twine check dist/*
+	twine upload dist/*
 
 dist: clean
 	python setup.py sdist
