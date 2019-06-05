@@ -67,3 +67,9 @@ release: dist
 
 install: clean
 	python setup.py install
+
+build-docker:
+	docker build --rm -t automaton-engine:latest -t automaton-engine:1.0.1 .
+
+build-docker-nocache:
+	docker build --no-cache -t automaton-engine:latest -t automaton-engine:1.0.1 .
