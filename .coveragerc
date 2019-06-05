@@ -1,8 +1,6 @@
 [run]
-source = .
-[html]
-directory = coverage_html_report
-[paths]
-source =
-    automaton/
-    bin/
+branch = true
+include = automaton_engine/*
+omit =
+  tests/*
+  

@@ -1,10 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Automaton."""
-# Author(s): Julian Gericke
-# (c) LSD
-# julian@lsd.co.za
-# https://lsd.co.za
 
 import asyncio
 import async_timeout
@@ -15,12 +10,13 @@ import json
 import logging
 import datetime
 
-from .actions import notify
-from .actions import awx
+from automaton_engine.actions import awx
+from automaton_engine.actions import notify
 
 logger = logging.getLogger(__name__)
 
-""" Automaton actions which can be effected
+
+""" action_dispatcher defines actions which can be effected
 - actions.notify : send webhook notification to RocketChat
 - actions.awx    : send api call to ansible awx
 """
@@ -31,8 +27,8 @@ action_dispatcher = {
 
 
 @dataclass
-class Automaton:
-    """Automaton.
+class AutomatonEngine:
+    """AutomatonEngine.
     """
 
     name: str
@@ -98,13 +94,13 @@ class Automaton:
             raise
 
     async def ActionProcessor(self, action_metadata: list):
-        """Execute actions defined in automaton_actions.
+        """Execute actions defined in automaton_engines actions.
         Actions are functions expressed in action_dispatcher,
         and are passed action_name, action_parameters and
         action_metadata.
 
         For first time execution, action processor will add an
-        exec and timestamp key to the executed automaton. Execution
+        exec and timestamp key to the executed automaton_engine. Execution
         will only re-occur once the time period expressed in
         action_backoff_seconds is reached.
 
@@ -118,43 +114,70 @@ class Automaton:
         """
         try:
             for index, action in enumerate(self.actions):
-                if action["action_name"] in action_dispatcher:
+                if action["name"] in action_dispatcher:
                     if "executed" in action:
                         if action["executed"] is False:
                             logging.info(
-                                "automaton: {} executing action: {}".format(
-                                    self.name, action["action_name"]
+                                "automaton_engine: {} executing action: {}".format(
+                                    self.name, action["name"]
                                 )
                             )
-                            await action_dispatcher[action["action_name"]](
-                                action["action_parameters"], action_metadata
+                            await action_dispatcher[action["name"]](
+                                action["parameters"], action_metadata
                             )
                             action["executed"] = True
                             action["exec_time"] = datetime.datetime.now()
                             logging.info(
-                                "automaton: {} execution of action: {} completed".format(
-                                    self.name, action["action_name"]
+                                "automaton_engine: {} execution of action: {} completed".format(
+                                    self.name, action["name"]
                                 )
                             )
+                    else:
+                        logging.info(
+                            "automaton_engine: {} first time execution of action: {}".format(
+                                self.name, action["name"]
+                            )
+                        )
+                        await action_dispatcher[action["name"]](
+                            action["parameters"], action_metadata
+                        )
+                        action["executed"] = True
+                        action["exec_time"] = datetime.datetime.now()
                     if "exec_time" in action:
                         if action[
                             "exec_time"
                         ] < datetime.datetime.now() - datetime.timedelta(
-                            seconds=action["action_backoff_seconds"]
+                            seconds=action["backoff_seconds"]
                         ):
-                            logging.debug("backoff for executed action has elapsed")
+                            logging.debug(
+                                "automaton_engine: {} action {} exceeded backoff period {} (previous execution time {})".format(
+                                    self.name,
+                                    action["name"],
+                                    action["backoff_seconds"],
+                                    action["exec_time"],
+                                )
+                            )
                             action["executed"] = False
+                        else:
+                            logging.debug(
+                                "automaton_engine: {} action {} within backoff period {} (previous execution time {})".format(
+                                    self.name,
+                                    action["name"],
+                                    action["backoff_seconds"],
+                                    action["exec_time"],
+                                )
+                            )
         except Exception as e:
             logging.error(e)
             raise
 
     async def Poller(self):
-        """Automatons mainloop.
+        """AutomatonEngine mainloop.
         1. Calls QueryExecutor
-        2. If automatons query returns valid data, call ResponseMapper
+        2. If automaton_engine query returns valid data, call ResponseMapper
         3. Send mapped response to action processor which calls defined actions
 
-        If no response is retrieved from QueryExecutor the automaton waits
+        If no response is retrieved from QueryExecutor the automaton_engine waits
         for the duration of the query_interval period.
 
 
@@ -169,26 +192,28 @@ class Automaton:
             while self.enabled:
                 query_response = await self.QueryExecutor()
                 if (
-                    query_response["aggregations"][self.es_query["query_name"]][
-                        "buckets"
-                    ]
+                    query_response[self.es_query["query_type"]][
+                        self.es_query["query_name"]
+                    ]["buckets"]
                     and len(
-                        query_response["aggregations"][self.es_query["query_name"]][
-                            "buckets"
-                        ]
+                        query_response[self.es_query["query_type"]][
+                            self.es_query["query_name"]
+                        ]["buckets"]
                     )
                     > 0
                 ):
                     action_metadata = self.ResponseMapper(query_response)
                     logging.info(
-                        "automaton: {} activity detected with metadata: {}".format(
+                        "automaton_engine: {} activity detected with metadata: {}".format(
                             self.name, action_metadata
                         )
                     )
                     await self.ActionProcessor(action_metadata)
                 else:
                     logging.debug(
-                        "automaton: {} has detected no activity".format(self.name)
+                        "automaton_engine: {} has detected no activity".format(
+                            self.name
+                        )
                     )
                 if self.runonce:
                     break

@@ -1,10 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Automaton actions: AWX."""
-# Author(s): Julian Gericke
-# (c) LSD
-# julian@lsd.co.za
-# https://lsd.co.za
 
 import asyncio
 import async_timeout
@@ -31,9 +26,7 @@ async def api_call(action_parameters, action_metadata):
     """
     try:
         for index, action_obj in enumerate(action_metadata):
-            logging.info(
-                "running awx api call with action metadata: {}".format(action_obj)
-            )
+            logging.debug("calling awx api with action metadata: {}".format(action_obj))
             async with ClientSession(
                 skip_auto_headers=["User-Agent"],
                 auth=BasicAuth(

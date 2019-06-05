@@ -1,10 +1,5 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-"""Automaton actions: Notifications."""
-# Author(s): Julian Gericke
-# (c) LSD
-# julian@lsd.co.za
-# https://lsd.co.za
 
 import asyncio
 import async_timeout
@@ -34,7 +29,7 @@ async def rocketchat_webhook(action_parameters, action_metadata):
                 "text": action_parameters["rocketchat_message"]
                 + "\naction metadata: {}".format(action_obj)
             }
-            logging.info(
+            logging.debug(
                 "sending rocketchat notfication with action metadata: {}".format(
                     action_obj
                 )
