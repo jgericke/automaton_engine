@@ -65,7 +65,6 @@ action_dispatcher = {
 ```
 
 ## Creating An Automaton
-
 You can launch Automaton Engine by defining the AUTOMATON_ENGINE_CONFIG environment variable, which has an expected structure as outlined below. When you're good to go, you can execute samples/auto.py which will gather all of the automatons you've defined and run them through the execution chain.
 
 Have a look at samples provided (```samples/```) to get a feel for scaffolding Automatons
