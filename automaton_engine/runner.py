@@ -32,10 +32,7 @@ def runner(argv=None):
                         "runonce"
                     ],
                     biome.AUTOMATON_ENGINE.get_dict("config")["automatons"][cfg][
-                        "elasticsearch_url"
-                    ],
-                    biome.AUTOMATON_ENGINE.get_dict("config")["automatons"][cfg][
-                        "elasticsearch_timeout"
+                        "elasticsearch"
                     ],
                     biome.AUTOMATON_ENGINE.get_dict("config")["automatons"][cfg][
                         "elasticsearch_query"
