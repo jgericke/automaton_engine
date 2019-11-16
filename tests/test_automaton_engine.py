@@ -21,8 +21,11 @@ def automaton_engine_defaults():
     automaton_engine_name = "test_automaton_engine"
     automaton_engine_enabled = True
     automaton_engine_runonce = True
-    automaton_engine_elasticsearch_url = "http://es.loc:9200"
-    automaton_engine_elasticsearch_timeout = 1
+    automaton_engine_elasticsearch = {
+        "url": "http://es.loc:9200",
+        "timeout": 1,
+        "auth": {"username": "es_user", "password": "es_pass"},
+    }
     automaton_engine_elasticsearch_query = {
         "query_interval": 5,
         "query_endpoint": "/_search",
@@ -68,8 +71,7 @@ def automaton_engine_defaults():
         automaton_engine_name,
         automaton_engine_enabled,
         automaton_engine_runonce,
-        automaton_engine_elasticsearch_url,
-        automaton_engine_elasticsearch_timeout,
+        automaton_engine_elasticsearch,
         automaton_engine_elasticsearch_query,
         automaton_engine_actions,
     )
@@ -81,7 +83,9 @@ class TestAutomatonEngine(object):
         assert isinstance(automaton_engine_defaults.name, str)
         assert isinstance(automaton_engine_defaults.enabled, bool)
         assert isinstance(automaton_engine_defaults.runonce, bool)
-        assert isinstance(automaton_engine_defaults.es_url, str)
+        assert isinstance(automaton_engine_defaults.elasticsearch, dict)
+        assert isinstance(automaton_engine_defaults.elasticsearch["url"], str)
+        assert isinstance(automaton_engine_defaults.elasticsearch["timeout"], int)
         assert isinstance(automaton_engine_defaults.es_query, dict)
         assert isinstance(automaton_engine_defaults.actions, list)
 

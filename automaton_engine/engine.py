@@ -3,7 +3,7 @@
 
 import asyncio
 import async_timeout
-from aiohttp import ClientSession
+from aiohttp import ClientSession, BasicAuth
 from dataclasses import dataclass
 
 import json
@@ -34,10 +34,20 @@ class AutomatonEngine:
     name: str
     enabled: bool
     runonce: bool
-    es_url: str
-    es_tmo: int
+    elasticsearch: dict
     es_query: dict
     actions: list
+
+    def __post_init__(self):
+        """Initialise with BasicAuth if present in config.
+        """
+        if "auth" in self.elasticsearch:
+            self.es_auth = BasicAuth(
+                login=self.elasticsearch["auth"]["username"],
+                password=self.elasticsearch["auth"]["password"],
+            )
+        else:
+            self.es_auth = None
 
     async def QueryExecutor(self) -> dict:
         """Runs query_payload and returns query_response.
@@ -51,13 +61,16 @@ class AutomatonEngine:
                 General Exception
         """
         try:
-            async with ClientSession(skip_auto_headers=["User-Agent"]) as session:
-                with async_timeout.timeout(self.es_tmo):
+            async with ClientSession(
+                skip_auto_headers=["User-Agent"], auth=self.es_auth
+            ) as session:
+                with async_timeout.timeout(self.elasticsearch["timeout"]):
                     async with session.post(
-                        self.es_url + self.es_query["query_endpoint"],
+                        self.elasticsearch["url"] + self.es_query["query_endpoint"],
                         data=json.dumps(self.es_query["query_payload"]),
                         headers={"content-type": "application/json"},
                     ) as response:
+                        logger.debug(response)
                         assert response.status == 200
                         query_response = await response.json()
                         return query_response

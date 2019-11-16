@@ -23,6 +23,25 @@ Basically Automaton Engine is ***all*** about the following:
 * `notify` - Send a Rocket Chat webhook.
 * `awx` - Calls an Ansible AWX API endpoint.
 
+## Installation
+
+Install via pip:
+```
+$ pip install automaton-engine
+```
+
+Build from source:
+```
+$ git clone https://github.com/jgericke/automaton_engine.git
+$ python setup.py install
+```
+
+Run tests:
+```
+$ python setup.py test
+```
+
+
 ## Example Workflow
 
     1. Create an Elasticsearch query to read the number of orders being processed (assuming you have some sort of order system thats sending metrics to Elasticsearch...)
@@ -78,8 +97,14 @@ export AUTOMATON_ENGINE_CONFIG='{
             "name": "my_neat_automaton",
             "enabled": True,
             "runonce": False,
-            "elasticsearch_url": "http://my.elasticsearch:9200",
-            "elasticsearch_timeout": 10,
+            "elasticsearch": {
+                "url": "https://http://my.elasticsearch:9200",
+                "timeout": 10,
+                "auth": {
+                    "username": "es_user",
+                    "password": "es_pass",
+                },
+            },
             "elasticsearch_query": {
                 "query_interval": 5,
                 "query_endpoint": "/_search",
@@ -137,7 +162,29 @@ export AUTOMATON_ENGINE_CONFIG='{
 }'
 ```
 
+### Elasticsearch Authentication
 
+Automaton now supports basic authentication for elasticsearch, to configure it add an "auth" section to your automaton configuration as per below:
+
+```
+            "elasticsearch": {
+                "url": "https://http://my.elasticsearch:9200",
+                "timeout": 10,
+                "auth": {
+                    "username": "es_user",
+                    "password": "es_pass",
+                },
+            },
+```
+
+No elasticsearch authentication? No problem! Simply remove the auth stanza:
+
+```
+            "elasticsearch": {
+                "url": "https://http://my.elasticsearch:9200",
+                "timeout": 10,
+            },
+```
 
 #### Original Author(s)
 
