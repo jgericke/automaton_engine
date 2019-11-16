@@ -2,7 +2,7 @@ from setuptools import setup, find_packages, Extension
 
 setup(
     name="automaton_engine",
-    version="1.0.1",
+    version="1.0.2",
     python_requires="~=3.7",
     description="Simple, Event-driven Automation in Python using Elasticsearch data to inform automation decisions",
     long_description=open("README.md").read(),

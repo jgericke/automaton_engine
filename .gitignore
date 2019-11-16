@@ -6,6 +6,7 @@ automaton_engine/actions/__pycache__
 .DS_Store
 launch.sh
 build.sh
+release.sh
 service.log
 arch
 build
