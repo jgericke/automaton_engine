@@ -22,20 +22,55 @@ Basically Automaton Engine is ***all*** about the following:
 ## Installation
 
 Install via pip:
-```
+```console
 $ pip install automaton-engine
 ```
 
 Build from source:
-```
+```console
 $ git clone https://github.com/jgericke/automaton_engine.git
 $ python setup.py install
 ```
 
 Run tests:
-```
+```console
 $ python setup.py test
 ```
+
+Run via docker:
+```console
+$ docker run -e "AUTOMATON_ENGINE_CONFIG=$(cat ./env.json)" -e AUTOMATON_ENGINE_LOGLEVEL="DEBUG" quay.io/jgericke/automaton-engine:latest
+```
+
+Where the contents of env.json represent the structure below (see Creating An Automaton for more detail):
+```json
+{ 
+    "automatons": [
+        {
+            "name": "automaton_dev",
+            "enabled": True,
+            "runonce": True,
+            "elasticsearch": {}.
+            },
+            "elasticsearch_query": {},
+            "actions": [
+                {
+                    "name": "action_uno",
+                    "backoff_seconds": 1, 
+                    "parameters": {}
+                },
+                {
+                    "name": "action_dos",
+                    "backoff_seconds": 1,
+                    "parameters": {}
+                    }
+                }
+            ]
+        }
+    ]
+}
+```
+
 
 ## Example Workflow
 
@@ -56,7 +91,7 @@ $ python setup.py test
 * Create a new action file: automaton_engine/actions/my_action.py
 * Actions are defined as a list within your `automaton` environment variable, and can be chained, for example the below action fires off a rocket chat webhook (this forms part of your AUTOMATON_ENGINE_CONFIG environment variable):
 
-```
+```json
 "actions": [
     {
         "name": "notify.rocketchat_webhook",
@@ -72,19 +107,19 @@ $ python setup.py test
 
 * When adding or extending an action, you need to make Automaton aware of the new action by adding it to automaton/automaton.py within the action_dispatcher (This will be simplified in the future). The below represents the action file and function name for ```actions/notify.py```.
 
-```
+```json
 action_dispatcher = {
     "notify.rocketchat_webhook": notify.rocketchat_webhook 
 }
 ```
 
-## Creating An Automaton
+### Creating An Automaton
 
 You can launch Automaton Engine by defining the AUTOMATON_ENGINE_CONFIG environment variable, which has an expected structure as outlined below. When you're good to go, you can execute samples/auto.py which will gather all of the automatons you've defined and run them through the execution chain.
 
 Have a look at samples provided (```samples/```) to get a feel for scaffolding Automatons
 
-```
+```json
 export AUTOMATON_ENGINE_LOGLEVEL='DEBUG'
 export AUTOMATON_ENGINE_CONFIG='{ 
     "automatons": [
@@ -161,7 +196,7 @@ export AUTOMATON_ENGINE_CONFIG='{
 
 Automaton now supports basic authentication for elasticsearch, to configure it add an "auth" section to your automaton configuration as per below:
 
-```
+```json
             "elasticsearch": {
                 "url": "https://http://my.elasticsearch:9200",
                 "timeout": 10,
@@ -174,13 +209,12 @@ Automaton now supports basic authentication for elasticsearch, to configure it a
 
 No elasticsearch authentication? No problem! Simply remove the auth stanza:
 
-```
+```json
             "elasticsearch": {
                 "url": "https://http://my.elasticsearch:9200",
                 "timeout": 10,
             },
 ```
-
 
 #### Original Author(s)
 
